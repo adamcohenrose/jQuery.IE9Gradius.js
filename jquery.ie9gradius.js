@@ -19,8 +19,8 @@ jQuery(document).ready(function($){
             s += 'border-bottom-right-radius: ' + parseInt($(this).css('borderBottomRightRadius')) + 'px;';
             
             // find the start and end colors
-            var c1 = $(this).css('filter').match(/startcolorstr\=\"?\'?\#([0-9a-fA-F]{6})\'?\"?/i);
-            var c2 = $(this).css('filter').match(/endcolorstr\=\"?\'?\#([0-9a-fA-F]{6})\'?\"?/i);
+            var c1 = $(this).css('filter').match(/startcolorstr\=\s*\"?\'?\#([0-9a-fA-F]{6})\'?\"?/i);
+            var c2 = $(this).css('filter').match(/endcolorstr\=\s*\"?\'?\#([0-9a-fA-F]{6})\'?\"?/i);
             if (c1 != null) { if (c1.length == 2) { c1 = c1[1]; } else { c1 = null; } }
             if (c2 != null) { if (c2.length == 2) { c2 = c2[1]; } else { c2 = null; } }
             if (c1 == null && c2 != null) { c1 = c2; }
@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
             
             // we need to remove the current filter because this is spilling outside the border radius
             // relative position is needed for proper positioning of the gradient
-            $(this).css('filter', '').css('position', 'relative').css('z-index', '0')
+            $(this).css('filter', '').css('position', 'relative').css('z-index', '0');
             
             // add support for adding hover styling
             $(this).mouseenter(function() { $('#'+id).addClass('gradiusover'); }).mouseleave(function() { $('#'+id).removeClass('gradiusover'); });
@@ -43,11 +43,12 @@ jQuery(document).ready(function($){
             $(this).find('> *:not(ul)').css('position', 'relative');
             
             // the magic is all here
-            $(this).prepend('\
-            <div style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; z-index:-1"> \
-                <div style="'+s+' height: 100%; overflow: hidden;"> \
-                    <div id="'+id+'" style="'+g+' height: 100%; width: 100%; z-index:-1"> \
-                    </div></div></div>');
+            //$(this).wrapInner('<p />');
+            $(this).prepend(
+            '<div style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; z-index: -1;">' +
+                '<div style="'+s+' height: 100%; overflow: hidden;">' +
+                    '<div id="'+id+'" style="'+g+' height: 100%; width: 100%; z-index: -1;">' +
+                    '</div></div></div>');
         }
     });
 });
